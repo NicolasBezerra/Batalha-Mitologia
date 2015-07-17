@@ -1,0 +1,918 @@
+﻿<!DOCTYPE html>
+<html>
+<style>
+    canvas {
+        padding-left: 0;
+        padding-right: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        width: 1066px;
+        -webkit-box-shadow: 400px 4px 5px 2px rgba(46, 50, 50, 0.24);
+        -moz-box-shadow: 500px 400px 500px 200px rgba(46, 50, 50, 0.24);
+        box-shadow: 4px 4px 5px 2px rgba(46, 50, 50, 0.24);
+    }
+</style>
+<title>Batalha Mitológica</title>
+<link rel="shortcut icon" href="preda.png" type="image/png">
+
+<body bgcolor="#FFDEAD">
+
+    <canvas id="myCanvas" width="1066" height="600" style="border:1px solid #000000;">
+    </canvas>
+
+    <script>
+        // Ligando o canvas ao código javascript
+        var canvas = document.getElementById("myCanvas");
+        var context = canvas.getContext("2d");
+        var cb;
+
+
+        var audio = new Audio();
+
+        // carregando o [AUDIO]
+        audio.src = "som/ataque leao.mp3";
+        audio.load();
+
+
+        // imagens 
+        var fundo = new Image();
+        var medusa = new Image();
+        var lia1 = new Image();
+        var lia12 = new Image();
+        var guerreiro1 = new Image();
+        var vencedor1 = new Image();
+        // images porra loka
+
+        fundo.src = 'fundo.png'
+        medusa.src = 'medusa.png'
+        lia1.src = 'lia1.png'
+        lia12.src = 'lia12.png'
+        guerreiro1.src = 'guerreiro1.png'
+        vencedor1.src = 'vencedor1.jpg'
+
+        var v1 = new Image();
+        var v2 = new Image();
+        var v3 = new Image();
+        var v4 = new Image();
+        var v5 = new Image();
+        var v6 = new Image();
+        var v7 = new Image();
+        var v8 = new Image();
+        var v9 = new Image();
+        var v10 = new Image();
+        var v11 = new Image();
+
+        v1.src = 'v1.png'
+        v2.src = 'v2.png'
+        v3.src = 'v3.png'
+        v4.src = 'v4.png'
+        v5.src = 'v5.png'
+        v6.src = 'v6.png'
+        v7.src = 'v7.png'
+        v8.src = 'v8.png'
+        v9.src = 'v9.png'
+        v10.src = 'v10.png'
+        v11.src = 'v11.png'
+
+        //guerreiro 1 
+        var g1 = {
+            x: 35,
+            y: 225,
+            w: 100,
+            h: 100,
+            color: "#00ff00",
+            speedx: 5,
+            speedy: 5,
+            moveLeft: false,
+            moveRight: false,
+            moveUp: false,
+            moveDown: false,
+            tiro1: false,
+            tiro2: false,
+            tiro3: false,
+            tiro4: false,
+            tiro5: false,
+            tiro6: false,
+            tiro7: false,
+            tiro8: false,
+            contador: 0,
+            contador2: 0,
+            contador3: 0,
+            contador3: 0,
+
+        }
+
+        var bullets = [];
+
+        //guerreiro 2
+        var g2 = {
+            x: 975,
+            y: 250,
+            w: 35,
+            h: 72,
+            color: "#000000",
+            speedx: 5,
+            speedy: 5,
+            moveLeft2: false,
+            moveRight2: false,
+            moveUp2: false,
+            moveDown2: false,
+            tiro1: false,
+            tiro2: false,
+            tiro3: false,
+            tiro4: false,
+            tiro5: false,
+            tiro6: false,
+            tiro7: false,
+            tiro8: false,
+            contador: 0
+                // drawRect(g1.x + 25, g1.y + 15, g1.w - 50, g1.h - 20);
+        }
+
+        var lia1 = new Image();
+        var lia12 = new Image();
+        lia1.src = 'lia1.png'
+        lia12.src = 'lia12.png'
+
+
+
+        var vida = 50;
+        var vida2 = 50;
+
+        var l = {
+            x: 10 / 3,
+            y: 70,
+            w: 20,
+            h: 20,
+            color: "#00ff00",
+            speedx: -7
+
+
+        }
+        var l2 = {
+            x: 1000,
+            y: 470,
+            w: 20,
+            h: 20,
+            color: "#00ff00",
+            speedx: 7
+
+        }
+
+
+
+        var preda = new Image();
+        preda.src = 'preda.png';
+
+        var play = false;
+        var mousepressed = false;
+        var mouse_x = 0;
+        var mouse_y = 0;
+        var how = false;
+        var credit = false;
+        var main = true;
+        var menu = new Image();
+        menu.src = 'menu.png';
+
+
+        var magia_medusa = new Image();
+        magia_medusa.src = 'magia.png'
+
+        canvas.addEventListener("mousemove", mouseMove);
+        canvas.addEventListener("mousedown", mouseDown);
+        canvas.addEventListener("mouseup", mouseUp);
+
+
+        function mouseMove(e) {
+            mouse_x = e.x - cb.left;
+            mouse_y = e.y - cb.top;
+            console.log(mouse_x, mouse_y);
+        }
+
+        function mouseDown(e) {
+            mousepressed = true;
+        }
+
+        function mouseUp(e) {
+            mousepressed = false;
+        }
+
+
+        function menu1() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(menu, 0, 0, canvas.width, canvas.height);
+
+            if (mouse_x >= 468 && mouse_x <= 615 && mouse_y >= 316 && mouse_y <= 372 && mousepressed && how == false && credit == false) play = true;
+            //if (mouse_x >= 160 && mouse_x <= 473 && mouse_y >= 445 && mouse_y <= 500 && mousepressed && play == false && credit == false) how = true;
+            //if (mouse_x >= 160 && mouse_x <= 473 && mouse_y >= 544 && mouse_y <= 600 && mousepressed && play == false && how == false) credit = true;
+        }
+
+
+        /*function wtf() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(como, 0, 0, canvas.width, canvas.height);
+            context.drawImage(voltar, voltarx, voltary, voltarw, voltarh);
+			context.drawImage(continui4,continuix,continuiy,continuiw,continuih)
+
+            if (mouse_x >= 1 && mouse_x <= 59 && mouse_y >= 713 && mouse_y <= 757 && mousepressed) {
+                menu1();
+                how = false;
+            }
+			
+				if (mouse_x >= 544 && mouse_x <= 599 && mouse_y >= 713 && mouse_y <= 757 && mousepressed){}
+        }
+
+        function nomes() {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(creditos, 0, 0, canvas.width, canvas.height);
+            context.drawImage(voltar, voltarx, voltary, voltarw, voltarh);
+
+            if (mouse_x >= 1 && mouse_x <= 59 && mouse_y >= 713 && mouse_y <= 757 && mousepressed) {
+                menu1();
+                credit = false;
+            }
+        }*/
+
+
+        // criando funções para uso do teclado 
+        // guerreiro 2
+        var p2IsFire = false;
+        var _keyDown2 = function(e) {
+
+            switch (e.keyCode) {
+                case 37: // seta esquerda
+                    g2.moveLeft2 = true;
+                    break;
+
+                case 39: // seta direita
+                    g2.moveRight2 = true;
+                    break;
+
+                case 38: //seta para cima 
+                    g2.moveUp2 = true;
+                    break;
+
+                case 40: //seta para baixo
+                    g2.moveDown2 = true;
+                    break;
+
+                case 71: //G
+                    if (p2IsFire == false) {
+                        g1.tiro3 = true;
+                        p2IsFire = true;
+                        break;
+                    }
+
+                case 84: // T
+                    if (p2IsFire == false) {
+                        g1.tiro1 = true;
+                        p2IsFire = true;
+                        break;
+                    }
+
+                case 70: //F
+                    if (p2IsFire == false) {
+                        g1.tiro2 = true;
+                        p2IsFire = true;
+                        break;
+                    }
+
+                case 72: //H
+                    if (p2IsFire == false) {
+                        g1.tiro4 = true;
+                        p2IsFire = true;
+                        break;
+                    }
+
+            }
+        }
+
+        var _keyUp2 = function(e) {
+
+            switch (e.keyCode) {
+                case 37: // seta esquerda
+                    g2.moveLeft2 = false;
+                    break;
+
+                case 39: // seta direita
+                    g2.moveRight2 = false;
+                    break;
+
+                case 38: //seta para cima 
+                    g2.moveUp2 = false;
+                    break;
+
+                case 40: //seta para baixo
+                    g2.moveDown2 = false;
+                    break;
+
+                case 71: //G
+                    g1.tiro3 = false;
+                    p2IsFire = false;
+                    break;
+
+
+                case 84: // T
+                    g1.tiro1 = false;
+                    p2IsFire = false;
+                    break;
+
+
+                case 70: //F
+
+                    g1.tiro2 = false;
+                    p2IsFire = false;
+                    break;
+
+
+                case 72: //H
+                    g1.tiro4 = false;
+                    p2IsFire = false;
+                    break;
+
+
+            }
+        }
+
+
+        //teclas guerreiros 1
+        var p1IsFire = false;
+        var _keyDown1 = function(e) {
+
+            switch (e.keyCode) {
+                case 65: // seta esquerda
+                    g1.moveLeft = true;
+                    break;
+
+                case 68: // seta direita
+                    g1.moveRight = true;
+                    break;
+
+                case 87: //seta para cima 
+                    g1.moveUp = true;
+                    break;
+
+                case 83: //seta para baixo
+                    g1.moveDown = true;
+                    break;
+
+                case 57: // 9
+                    if (p1IsFire == false) {
+                        g2.tiro1 = true;
+                        p1IsFire = true;
+                        break;
+                    }
+
+                case 73: // I
+                    if (p1IsFire == false) {
+                        g2.tiro2 = true;
+                        p1IsFire = true;
+                        break;
+                    }
+
+                case 79: //O
+                    if (p1IsFire == false) {
+                        g2.tiro3 = true;
+                        p1IsFire = true;
+                        break;
+                    }
+
+                case 80: //P
+                    if (p1IsFire == false) {
+                        g2.tiro4 = true;
+                        p1IsFire = true;
+                        break;
+                    }
+
+
+
+            }
+        }
+
+        var _keyUp1 = function(e) {
+
+            switch (e.keyCode) {
+                case 65: // seta esquerda
+                    g1.moveLeft = false;
+                    break;
+
+
+                case 68: // seta direita
+                    g1.moveRight = false;
+                    break;
+
+
+
+                case 87: //seta para cima 
+                    g1.moveUp = false;
+                    break;
+
+
+                case 83: //seta para baixo
+                    g1.moveDown = false;
+                    break;
+
+
+                case 57: // 9
+
+                    g2.tiro1 = false;
+                    p1IsFire = false;
+                    break;
+
+
+                case 73: // I
+
+                    g2.tiro2 = false;
+                    p1IsFire = false;
+                    break;
+
+
+                case 79: //O
+
+                    g2.tiro3 = false;
+                    p1IsFire = false;
+                    break;
+
+
+                case 80: //P
+
+                    g2.tiro4 = false;
+                    p1IsFire = false;
+                    break;
+
+
+
+
+            }
+        }
+
+
+
+
+        document.addEventListener("keydown", _keyDown1, true);
+        document.addEventListener("keyup", _keyUp1, true);
+        document.addEventListener("keydown", _keyDown2, true);
+        document.addEventListener("keyup", _keyUp2, true);
+
+        var vidal = 5
+        var vidal2 = 5
+
+        function Jogando() {
+            function drawRect(x, y, w, h, color) {
+                context.fillStyle = color;
+                context.fillRect(x, y, w, h);
+            }
+
+            // pedra
+
+
+
+
+            // função de atualização de ações
+            function updatePlayer() {
+                // jogador 1
+                if (g1.moveLeft) {
+                    g1.x -= g1.speedx;
+                }
+                if (g1.moveRight) {
+                    g1.x += g1.speedx;
+                }
+                if (g1.moveUp) {
+                    g1.y -= g1.speedy;
+                }
+                if (g1.moveDown) {
+                    g1.y += g1.speedy;
+                }
+                // jogador 2
+                if (g2.moveLeft2) {
+                    g2.x -= g2.speedx;
+                }
+                if (g2.moveRight2) {
+                    g2.x += g2.speedx;
+                }
+                if (g2.moveUp2) {
+
+                    g2.y -= g2.speedy;
+                }
+                if (g2.moveDown2) {
+                    g2.y += g2.speedy;
+                }
+
+                if ((l.x <= 10 / 3) || (l.x >= 1001)) {
+                    l.speedx = l.speedx * -1;
+                }
+
+                if ((l2.x <= 10) || (l2.x >= 1001)) {
+                    l2.speedx = l2.speedx * -1;
+                }
+
+            }
+
+
+            function updateLeao() {
+                l.x += l.speedx;
+                l2.x += l2.speedx;
+                //console.log("updateLeao to: " + l.x);
+            }
+
+            function Bullet(x, y, width, height, color, vx, vy) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+            };
+
+
+
+            Bullet.prototype.update = function() {
+                this.x += this.vx;
+                this.y += this.vy;
+            };
+
+            function colisionLeao() {
+
+                if (g1.x < l.x + l.w && g1.x + g1.w > l.x && g1.y < l.y + l.h && g1.h + g1.y > l.y) {
+                    audio.play();
+                    vida2 -= 1;
+                }
+
+
+                if (g1.x < l2.x + l2.w && g1.x + g1.w > l2.x && g1.y < l2.y + l2.h && g1.h + g1.y > l2.y) {
+                    audio.play();
+                    vida2 -= 1;
+                }
+                // LEAO 2
+
+                if (g2.x < l.x + l.w && g2.x + g2.w > l.x && g2.y < l.y + l.h && g2.h + g2.y > l.y) {
+                    audio.play();
+                    vida -= 1;
+                }
+
+                if (g2.x < l2.x + l2.w && g2.x + g2.w > l2.x && g2.y < l2.y + l2.h && g2.h + g2.y > l2.y) {
+                    audio.play();
+                    vida -= 1;
+                }
+
+            }
+
+            var vtiro = 21;
+
+            function UpdateTiro() {
+                //		Jogador 1
+
+                // tiro na diagonal
+                if (g1.tiro1 == true && g1.tiro4 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x + 70, g1.y - 2, 12, 12, "#00ffff", 8, -8));
+                    g1.contador = vtiro;
+                }
+
+                if (g1.tiro1 == true && g1.tiro2 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x + 3, g1.y - 2, 12, 12, "#00ffff", -8, -8));
+                    g1.contador = vtiro;
+                }
+
+                if (g1.tiro3 == true && g1.tiro2 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x + 10, g1.y + 95, 12, 12, "#00ffff", -8, 8));
+                    g1.contador = vtiro;
+                }
+
+                if (g1.tiro2 == true && g1.tiro4 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x, g1.y + 95, 12, 12, "#00ffff", 8, 8));
+                    g1.contador = vtiro;
+                }
+
+
+
+                if (g1.tiro4 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x + 90, g1.y + (g1.h / 2), 12, 12, "#000000", 10, 0));
+                    g1.contador = vtiro;
+                }
+
+                if (g1.tiro2 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x - 10, g1.y + (g1.h / 2), 12, 12, "#00ffff", -8, 0));
+                    g1.contador = vtiro;
+                }
+
+                if (g1.tiro3 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x + (g1.w / 2) - 6, g1.y + 100, 12, 12, "#00ffff", 0, 8));
+                    g1.contador = vtiro;
+                }
+
+                if (g1.tiro1 == true && g1.contador == 0) {
+                    bullets.push(new Bullet(g1.x + (g1.w / 2) - 6, g1.y - 5, 12, 12, "#00ffff", 0, -8));
+                    g1.contador = vtiro;
+                }
+
+                if (g1.contador > 0) {
+                    g1.contador--;
+                }
+
+
+                // jogador 2
+
+                // tiro na diagonal
+                if (g2.tiro4 == true && g2.tiro1 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x + 30, g2.y - 10, 12, 12, "#00ffff", 8, -8));
+                    g2.contador = vtiro;
+                }
+
+                if (g2.tiro2 == true && g2.tiro1 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x - 10, g2.y + 2, 12, 12, "#00ffff", -8, -8));
+                    g2.contador = vtiro;
+                }
+
+                if (g2.tiro3 == true && g2.tiro2 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x - 5, g2.y + 60, 12, 12, "#00ffff", -8, 8));
+                    g2.contador = vtiro;
+                }
+
+                if (g2.tiro4 == true && g2.tiro3 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x + 25, g2.y + 60, 12, 12, "#00ffff", 8, 8));
+                    g2.contador = vtiro;
+                }
+
+
+                if (g2.tiro2 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x - 10, g2.y + (g2.h / 2), 12, 12, "#00ffff", -8, 0));
+                    g2.contador = vtiro;
+                }
+
+                // jogador 2
+                if (g2.tiro4 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x + 35, g2.y + (g2.h / 2), 12, 12, "#00ffff", 8, 0));
+                    g2.contador = vtiro;
+                }
+
+                // jogador 2
+                if (g2.tiro1 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x + 10, g2.y - 10, 12, 12, "#00ffff", 0, -8));
+                    g2.contador = vtiro;
+                }
+
+                // jogador 2
+                if (g2.tiro3 == true && g2.contador == 0) {
+                    bullets.push(new Bullet(g2.x + 12, g2.y + 70, 12, 12, "#00ffff", 0, 8));
+                    g2.contador = vtiro;
+                }
+
+
+
+
+                if (g2.contador > 0) {
+                    g2.contador--;
+                }
+                if (g1.tiro1 == true) {
+                    g1.tiro1 = false;
+                }
+                if (g2.tiro2 == true) {
+                    g2.tiro2 = false;
+                }
+                if (g1.tiro2 == true) {
+                    g1.tiro2 = false;
+                }
+                if (g2.tiro1 == true) {
+                    g2.tiro1 = false;
+                }
+                if (g1.tiro3 == true) {
+                    g1.tiro3 = false;
+                }
+                if (g2.tiro3 == true) {
+                    g2.tiro3 = false;
+                }
+                if (g1.tiro4 == true) {
+                    g1.tiro4 = false;
+                }
+                if (g2.tiro4 == true) {
+                    g2.tiro4 = false;
+                }
+
+                for (var i = 0, len = bullets.length; i < len; i++) {
+                    var b = bullets[i];
+                    b.update();
+                }
+
+                for (var i = 0, len = bullets.length; i < len; i++) {
+                    context.fillStyle = bullets[i].color;
+                    context.fillRect(bullets[i].x, bullets[i].y, bullets[i].width, bullets[i].height);
+                    context.drawImage(magia_medusa, bullets[i].x - 50 / 2, bullets[i].y - 50 / 2, bullets[i].width + 50, bullets[i].height + 50)
+                }
+
+                //leao 1
+                for (var j = 0, len_ = bullets.length; j < len_; j++) {
+
+                    if (bullets[j].x < l.x + l.w + 70 &&
+                        bullets[j].x + bullets[j].width > l.x &&
+                        bullets[j].y < l.y + l.h + 40 &&
+                        bullets[j].height + bullets[j].y > l.y) {
+                        delete bullets[j].x
+                        delete bullets[j].y
+                            //bullets[j].x.splice(j, 1);
+                            // bullets[j].y.splice(j, 1);
+                        vidal--;
+                        if (vidal <= 0) {
+                            l.x = -500
+                        }
+
+                    }
+                }
+                // leao2		
+                for (var j = 0, len_ = bullets.length; j < len_; j++) {
+
+                    if (bullets[j].x < l2.x + l2.w + 70 &&
+                        bullets[j].x + bullets[j].width > l2.x &&
+                        bullets[j].y < l2.y + l2.h + 40 &&
+                        bullets[j].height + bullets[j].y > l2.y) {
+                        delete bullets[j].x
+                        delete bullets[j].y
+                            //bullets[j].x.splice(j, 1);
+                            // bullets[j].y.splice(j, 1);
+                        vidal2--;
+                        if (vidal2 <= 0) {
+                            l2.x = -500
+                        }
+                    }
+
+                }
+
+                for (var j = 0, len_ = bullets.length; j < len_; j++) {
+
+                    if (bullets[j].x < g2.x + g2.w &&
+                        bullets[j].x + bullets[j].width > g2.x &&
+                        bullets[j].y < g2.y + g2.h &&
+                        bullets[j].height + bullets[j].y > g2.y) {
+                        delete bullets[j].x
+                        delete bullets[j].y
+                            //bullets[j].x.splice(j, 1);
+                            // bullets[j].y.splice(j, 1);
+                        vida -= 2;
+                    }
+                }
+
+                for (var j = 0, len_ = bullets.length; j < len_; j++) {
+
+                    if (bullets[j].x < g1.x + g1.w &&
+                        bullets[j].x + bullets[j].width > g1.x &&
+                        bullets[j].y < g1.y + g1.h &&
+                        bullets[j].height + bullets[j].y > g1.y) {
+                        delete bullets[j].x
+                        delete bullets[j].y
+                            //bullets[j].x.splice(j, 1);
+                            // bullets[j].y.splice(j, 1);
+                        vida2 -= 2;
+                    }
+
+                }
+
+            }
+
+            ;
+
+
+
+            // colisão com a tela dos jogadores
+            function UpdateJogador() {
+
+                if (g1.x <= -25) {
+                    g1.x = -25;
+                }
+                if (g2.x <= 0) {
+                    g2.x = 0;
+                }
+                if (g2.y <= -5) {
+                    g2.y = -5;
+                }
+                if (g1.x >= 985) {
+                    g1.x = 985
+                }
+                if (g1.y >= 515) {
+                    g1.y = 515
+                }
+                if (g1.y <= -12) {
+                    g1.y = -12
+                }
+                if (g2.x >= 1030) {
+                    g2.x = 1030
+                }
+                if (g2.y >= 530) {
+                    g2.y = 530
+                }
+            }
+
+
+
+            // função de desenho
+
+            function draw() {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                drawRect(g1.x + 25, g1.y + 15, g1.w - 50, g1.h - 30);
+                drawRect(g2.x + 25, g2.y + 13, g2.w - 50, g2.h - 15);
+                //  drawRect(l2.x, l2.y + 15, l2.w + 38, l2.h + 15);
+                //drawRect(l.x, l.y + 15, l.w + 38, l.h + 15);
+                context.drawImage(fundo, 0, 0, canvas.width, canvas.height);
+                context.drawImage(medusa, g1.x, g1.y, g1.w, g1.h);
+                context.drawImage(guerreiro1, g2.x, g2.y, g2.w, g2.h);
+                context.drawImage(v1, 20, 570, 118, 20);
+                context.drawImage(v1, 920, 570, 118, 20);
+                context.drawImage(lia1, l.x, l.y, 70, 70);
+                context.drawImage(lia12, l2.x, l2.y, 70, 70);
+                // drawRect(l2.x, l2.y + 15, l2.w + 38, l2.h + 15);
+                //drawRect(l.x, l.y + 15, l.w + 38, l.h + 15);
+
+
+
+
+                if (vida <= 49) {
+                    context.drawImage(v2, 920, 570, 118, 20);
+                }
+                if (vida <= 43.5) {
+                    context.drawImage(v3, 920, 570, 118, 20);
+                }
+                if (vida <= 38) {
+                    context.drawImage(v4, 920, 570, 118, 20);
+                }
+                if (vida <= 32.5) {
+                    context.drawImage(v5, 920, 570, 118, 20);
+                }
+                if (vida <= 27) {
+                    context.drawImage(v6, 920, 570, 118, 20);
+                }
+                if (vida <= 21.5) {
+                    context.drawImage(v7, 920, 570, 118, 20);
+                }
+                if (vida <= 16) {
+                    context.drawImage(v8, 920, 570, 118, 20);
+                }
+                if (vida <= 10.5) {
+                    context.drawImage(v9, 920, 570, 118, 20);
+                }
+                if (vida <= 5) {
+                    context.drawImage(v10, 920, 570, 118, 20);
+                }
+                if (vida <= 0) {
+                    context.drawImage(v11, 920, 570, 118, 20);
+                }
+
+
+                if (vida2 <= 49) {
+                    context.drawImage(v2, 20, 570, 118, 20);
+                }
+                if (vida2 <= 43.5) {
+                    context.drawImage(v3, 20, 570, 118, 20);
+                }
+                if (vida2 <= 38) {
+                    context.drawImage(v4, 20, 570, 118, 20);
+                }
+                if (vida2 <= 32.5) {
+                    context.drawImage(v5, 20, 570, 118, 20);
+                }
+                if (vida2 <= 27) {
+                    context.drawImage(v6, 20, 570, 118, 20);
+                }
+                if (vida2 <= 21.5) {
+                    context.drawImage(v7, 20, 570, 118, 20);
+                }
+                if (vida2 <= 16) {
+                    context.drawImage(v8, 20, 570, 118, 20);
+                }
+                if (vida2 <= 10.5) {
+                    context.drawImage(v9, 20, 570, 118, 20);
+                }
+                if (vida2 <= 5) {
+                    context.drawImage(v10, 20, 570, 118, 20);
+                }
+                if (vida2 <= 0) {
+                    context.drawImage(v11, 20, 570, 118, 20);
+                }
+
+
+            }
+            draw();
+            updatePlayer();
+            UpdateJogador();
+            UpdateTiro();
+            updateLeao();
+            colisionLeao();
+
+        }
+
+        // ciclo da aplicação
+
+        function loop() {
+            cb = canvas.getBoundingClientRect();
+            if (main == true) menu1();
+            if (play == true) {
+                Jogando();
+            }
+
+            setTimeout(loop, 30);
+        }
+        loop();
+    </script>
+</body>
+
+</html>

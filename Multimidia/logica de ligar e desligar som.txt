@@ -1,0 +1,12 @@
+var x = false ;
+var y = false ;
+
+ if (x = true ){y = true }
+ 
+ 
+ 
+ // bla bla bla  alguma colisão 
+ 
+ // se colidir o y = true porem nao vai rodar pq o x é false e o y só pode ser true se o x for true !!
+  //entendeu?? isso é bom para parar o som do do jogo ja que deve ter som nas colisões 
+  quando vc tiver essa opção no seu jogo.

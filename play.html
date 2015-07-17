@@ -1,0 +1,533 @@
+﻿<!DOCTYPE html>
+<html>
+<style>
+    #myCanvas {
+        width: 1066px;
+        -webkit-box-shadow: 400px 4px 5px 2px rgba(46, 50, 50, 0.24);
+        -moz-box-shadow: 500px 400px 500px 200px rgba(46, 50, 50, 0.24);
+        box-shadow: 4px 4px 5px 2px rgba(46, 50, 50, 0.24);
+        position: absolute;
+        display: block;
+        margin: auto;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+</style>
+<title>Batalha Mitológica</title>
+<link rel="shortcut icon" href="preda.png" type="image/png">
+
+<body bgcolor="#FFDEAD">
+
+<script src = "js/Variaveis.js"></script>
+<script src = "js/CarregandoImg.js"></script>
+<script src = "js/Menu.js"></script>
+<script src = "js/Teclado.js"></script>
+<script src = "js/pwup.js"></script>
+<script src = "js/Bullets.js"></script>
+<script src = "js/Bullets2.js"></script>
+<script src = "js/janv1.js"></script>
+
+
+<script src = "js/Animations.js"></script>
+    <canvas id="myCanvas" width="1066" height="600" style="border:1px solid #000000;">
+    </canvas>
+
+    <script>
+        // Ligando o canvas ao código javascript
+        	var canvas = document.getElementById("myCanvas");
+        var context = canvas.getContext("2d");
+        var cb;	
+        // preenchendo o array com [IMAGENS] e carregando as [IMAGENS]
+		
+        var start = (new Date()).getTime();
+		   var current;
+        var currentFrame = 0.;
+		
+        function deltaTime() {
+            current = (new Date()).getTime();
+            elapsed = current - start;
+            start = current;
+            var delta = elapsed / 1000.;
+            return delta;
+        }
+
+        function updateAnimation() {
+            var delta = deltaTime();
+            currentFrame += delta * 3;
+        }
+		
+
+		canvas.addEventListener("mouseup", mouseUp);
+        canvas.addEventListener("mousemove", mouseMove);
+        canvas.addEventListener("mousedown", mouseDown);
+        document.addEventListener("keydown", _keyDown1, true);
+        document.addEventListener("keyup", _keyUp1, true);
+        document.addEventListener("keydown", _keyDown2, true);
+        document.addEventListener("keyup", _keyUp2, true);
+
+        var vidal = 10
+        var vidal2 = 10
+
+        function Jogando() {
+
+            function drawRect(x, y, w, h, color) {
+                context.fillStyle = color;
+                context.fillRect(x, y, w, h);
+            }
+			
+		            // função de atualização de ações
+            function updatePlayer() {
+
+                // jogador 1
+                if (g1.moveLeft) {
+                    g1.x -= g1.speedx;
+                }
+                if (g1.moveRight) {
+                    g1.x += g1.speedx;
+                }
+                if (g1.moveUp) {
+                    g1.y -= g1.speedy;
+                }
+                if (g1.moveDown) {
+                    g1.y += g1.speedy;
+                }
+                // jogador 2
+                if (g2.moveLeft2) {
+                    g2.x -= g2.speedx;
+                }
+                if (g2.moveRight2) {
+                    g2.x += g2.speedx;
+                }
+                if (g2.moveUp2) {
+
+                    g2.y -= g2
+                        .speedy;
+                }
+                if (g2.moveDown2) {
+                    g2.y += g2.speedy;
+                }
+
+                if ((l.x <= 10 / 3) || (l.x >= 1001)) {
+                    l.speedx = l.speedx * -1;
+
+                }
+
+                if ((l2.x <= 10) || (l2.x >= 1001)) {
+                    l2.speedx = l2.speedx * -1;
+                }
+
+            }
+
+
+
+
+            function updateLeao() {
+                l.x += l.speedx;
+                l2.x += l2.speedx;
+                //console.log("updateLeao to: " + l.x);
+            }
+
+
+            function colisionLeao() {
+
+                if (g1.x < l.x + l.w && g1.x + g1.w > l.x && g1.y < l.y + l.h && g1.h + g1.y > l.y) {
+                    audio.play();
+                    vida2 -= 1;
+                }
+
+
+                if (g1.x < l2.x + l2.w && g1.x + g1.w > l2.x && g1.y < l2.y + l2.h && g1.h + g1.y - 30 > l2.y) {
+                    audio.play();
+                    vida2 -= 1;
+                }
+                // LEAO 2
+
+                if (g2.x < l.x + l.w && g2.x + g2.w > l.x && g2.y < l.y + l.h && g2.h + g2.y > l.y) {
+                    audio.play();
+                    vida -= 1;
+                }
+
+                if (g2.x < l2.x + l2.w && g2.x + g2.w > l2.x && g2.y < l2.y + l2.h && g2.h + g2.y > l2.y) {
+                    audio.play();
+                    vida -= 1;
+                }
+
+            }
+
+
+                // colisão com a tela dos jogadores
+            function UpdateJogador() {
+
+                if (g1.x <= -25) {
+                    g1.x = -25;
+                }
+                if (g2.x <= 0) {
+                    g2.x = 0;
+                }
+                if (g2.y <= -5) {
+                    g2.y = -5;
+                }
+                if (g1.x >= 985) {
+                    g1.x = 985
+                }
+                if (g1.y >= 515) {
+                    g1.y = 515
+                }
+                if (g1.y <= -12) {
+                    g1.y = -12
+                }
+                if (g2.x >= 1030) {
+                    g2.x = 1030
+                }
+                if (g2.y >= 530) {
+                    g2.y = 530
+                }
+            }
+		
+
+
+
+            // função de desenho
+            var raudi2 = false;
+            var raudi3 = false;
+			
+            var rx = 500;
+            var pqpacabalogoessaporradeoficina = false;
+            var pinto = false;
+			var mudag = false;
+
+            if (turno == 1) {
+                raudi2 = true;
+                pqpacabalogoessaporradeoficina = true;
+                rx = -100
+            }
+
+
+            if (turno2 == 1) {
+                raudi2 = true;
+                rx = -100
+                pinto = true;
+				mudag = true;
+			troca2 = 1;
+            }
+
+			
+            if (turno == 2 && turno2 == 0) {
+                play = false;
+                cabouojogo1 = true;
+
+            }
+
+            if (turno2 == 2 && turno == 0) {
+                play = false;
+                cabouojogo2 = true;
+				troca2 = 2;
+            }
+
+            if (turno == 2 && turno2 == 1) {
+                play = false;
+                cabouojogo1 = true;
+
+            }
+
+            if (turno2 == 2 && turno == 1) {
+                play = false;
+                cabouojogo2 = true;
+
+            }
+
+            if (turno == 1 && turno2 == 1) {
+                raudi3 = true;
+                roud2x = -100
+            }
+
+            function draw() {
+
+
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                drawRect(g1.x + 25, g1.y + 15, g1.w - 50, g1.h - 30);
+                drawRect(g2.x + 25, g2.y + 13, g2.w - 50, g2.h - 15);
+                //  drawRect(l2.x, l2.y + 15, l2.w + 38, l2.h + 15);
+                //drawRect(l.x, l.y + 15, l.w + 38, l.h + 15);
+                context.drawImage(fundo, 0, 0, canvas.width, canvas.height);
+				
+                if (g1.moveDown == false && g1.moveUp == false && g1.moveRight == false && g1.moveLeft == false) {
+                    context.drawImage(medusa, g1.x, g1.y, g1.w, g1.h);
+                }
+				
+				 if (g1.moveDown == true && g1.moveUp == false && g1.moveRight == false && g1.moveLeft == false) {
+                    context.drawImage(medusa, g1.x, g1.y, g1.w, g1.h);
+                }
+				
+					 if (g1.moveDown == false && g1.moveUp == true && g1.moveRight == false && g1.moveLeft == false) {
+                    context.drawImage(medusa, g1.x, g1.y, g1.w, g1.h);
+					}
+					
+					
+					 if (g1.moveDown == false && g1.moveUp == false && g1.moveRight == true && g1.moveLeft == true) {
+                    context.drawImage(medusa, g1.x, g1.y, g1.w, g1.h);
+					}
+					
+					 if (g1.moveDown == true && g1.moveUp == false && g1.moveRight == true && g1.moveLeft == true) {
+                    context.drawImage(medusa, g1.x, g1.y, g1.w, g1.h);
+					}
+				
+				
+				 if (g1.moveDown == false && g1.moveUp == true && g1.moveRight == true && g1.moveLeft == true) {
+                    context.drawImage(medusa, g1.x, g1.y, g1.w, g1.h);
+					}
+				
+
+                if ( g1.moveRight == true && g1.moveLeft == false ) {
+                    context.drawImage(images[Math.floor(currentFrame) % numFrames], g1.x, g1.y, g1.w, g1.h);
+                }
+				
+				if ( g1.moveLeft == true && g1.moveRight == false) {
+                    context.drawImage(images3[Math.floor(currentFrame) % numFrames], g1.x, g1.y, g1.w, g1.h);
+                }
+
+                if (g2.moveDown2 == false && g2.moveUp2 == false && g2.moveRight2 == false && g2.moveLeft2 == false) {
+                    context.drawImage(guerreiro1, g2.x, g2.y, g2.w, g2.h);
+                }
+				
+				
+                if (g2.moveDown2 == true && g2.moveUp2 == false && g2.moveRight2 == true && g2.moveLeft2 == true) {
+                    context.drawImage(guerreiro1, g2.x, g2.y, g2.w, g2.h);
+                }
+				
+				
+                if (g2.moveDown2 == false && g2.moveUp2 == true && g2.moveRight2 == true && g2.moveLeft2 == true) {
+                    context.drawImage(guerreiro1, g2.x, g2.y, g2.w, g2.h);
+                }
+				
+				 if (g2.moveDown2 == true && g2.moveUp2 == false && g2.moveRight2 == false && g2.moveLeft2 == false) {
+                    context.drawImage(guerreiro1, g2.x, g2.y, g2.w, g2.h);
+                }
+				
+				 if (g2.moveDown2 == false && g2.moveUp2 == true && g2.moveRight2 == false && g2.moveLeft2 == false) {
+                    context.drawImage(guerreiro1, g2.x, g2.y, g2.w, g2.h);
+                }
+				
+					 if (g2.moveDown2 == false && g2.moveUp2 == false && g2.moveRight2 == true && g2.moveLeft2 == true) {
+                    context.drawImage(guerreiro1, g2.x, g2.y, g2.w, g2.h);
+                }
+				
+				
+				if (troca2 == 0){
+                if ( g2.moveLeft2 == true && g2.moveRight2 == false) {
+                    context.drawImage(images2[Math.floor(currentFrame) % numFrames], g2.x - 20, g2.y, g2.w + 40, g2.h);
+                }
+			}
+				if(troca2 == 0){
+				
+				if ( g2.moveRight2 == true && g2.moveLeft2 == false) {
+                    context.drawImage(images4[Math.floor(currentFrame) % numFrames], g2.x - 20, g2.y, g2.w + 40, g2.h);
+                }
+			}
+			
+				if (troca2== 1){
+                if ( g2.moveLeft2 == true) {
+                    context.drawImage(images5[Math.floor(currentFrame) % numFrames], g2.x - 20, g2.y, g2.w + 40, g2.h);
+                }
+			}
+				if(troca2 == 1){
+				
+				if ( g2.moveRight2 == true) {
+                    context.drawImage(images55[Math.floor(currentFrame) % numFrames], g2.x - 20, g2.y, g2.w + 40, g2.h);
+                }
+			}
+			
+			
+				if (troca2== 2){
+                if ( g2.moveLeft2 == true) {
+                    context.drawImage(images555[Math.floor(currentFrame) % numFrames], g2.x - 20, g2.y, g2.w + 40, g2.h);
+                }
+			}
+				if(troca2 == 2){
+				
+				if ( g2.moveRight2 == true) {
+                    context.drawImage(images5555[Math.floor(currentFrame) % numFrames], g2.x - 20, g2.y, g2.w + 40, g2.h);
+                }
+			}
+				
+				
+				if(l.speedx == -7){
+                context.drawImage(lia1, l.x, l.y, 70, 70);}
+				if(l.speedx == 7){
+                context.drawImage(leaov, l.x, l.y, 70, 70);}
+				
+				if(l2.speedx == -7){
+                context.drawImage(lia12, l2.x, l2.y, 70, 70);}
+
+				
+				if(l2.speedx == 7){
+                context.drawImage(leaov, l2.x, l2.y, 70, 70);}
+				
+                context.drawImage(preda, px, py, pw, ph);
+                context.drawImage(preda, p2x, p2y, p2w, p2h);
+                context.drawImage(preda, p3x, p3y, p3w, p3h);
+                context.drawImage(preda, p4x, p4y, p4w, p4h);
+				
+				        context.drawImage(pwup1,pwup.x ,pwup.y,pwup.w,pwup.h);
+				
+                if (raudi2 == true) {
+                    context.drawImage(roud2, roud2x, roud.y, roud.w, roud.h)
+
+                }
+                if (pqpacabalogoessaporradeoficina == true) {
+                    context.drawImage(marcapt, 920, 50, 40, 40)
+                }
+                if (pinto == true) {
+                    context.drawImage(marcapsdb, 25, 53, 40, 40)
+                }
+                if (raudi3 == true) {
+                    context.drawImage(roud3, roud3x, roud.y, roud.w, roud.h)
+                }
+				if(mudag == true){
+				
+				
+				
+				}
+                context.drawImage(roud1, rx, roud.y, roud.w, roud.h)
+                context.drawImage(rubros, 900, nomes.y, nomes.w, nomes.h)
+                context.drawImage(medusas, nomes.x, nomes.y, nomes.w, nomes.h)
+                    // drawRect(l2.x, l2.y + 15, l2.w + 38, l2.h + 15);
+                    //drawRect(l.x, l.y + 15, l.w + 38, l.h + 15);
+
+
+                var yvida = 40;
+                if (vida == 40) {
+                    context.drawImage(v1, 920, 40, 118, 20);
+
+                }
+
+                if (vida <= 39) {
+                    context.drawImage(v2, 920, yvida, 118, 20);
+                }
+                if (vida <= 35.6) {
+                    context.drawImage(v3, 920, yvida, 118, 20);
+                }
+                if (vida <= 31) {
+                    context.drawImage(v4, 920, yvida, 118, 20);
+                }
+                if (vida <= 26.6) {
+                    context.drawImage(v5, 920, yvida, 118, 20);
+                }
+                if (vida <= 22.2) {
+                    context.drawImage(v6, 920, yvida, 118, 20);
+                }
+                if (vida <= 17.6) {
+                    context.drawImage(v7, 920, yvida, 118, 20);
+                }
+                if (vida <= 13.2) {
+                    context.drawImage(v8, 920, yvida, 118, 20);
+                }
+                if (vida <= 9.8) {
+                    context.drawImage(v9, 920, yvida, 118, 20);
+                }
+                if (vida <= 5.4) {
+                    context.drawImage(v10, 920, yvida, 118, 20);
+                }
+                if (vida <= 0) {
+                    context.drawImage(v11, 920, yvida, 118, 20);
+                    vida = 40;
+                    g1.x = 35;
+                    g1.y = 225;
+                    g2.x = 975;
+                    g2.y = 250;
+                    turno2 += 1
+                    vidal = 10;
+                    vidal2 = 10;
+                }
+
+                if (vida2 == 40) {
+                    context.drawImage(v1, 20, 40, 118, 20);
+                }
+
+                if (vida2 <= 39) {
+                    context.drawImage(v2, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 35.6) {
+                    context.drawImage(v3, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 31) {
+                    context.drawImage(v4, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 26.6) {
+                    context.drawImage(v5, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 22.2) {
+                    context.drawImage(v6, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 17.6) {
+                    context.drawImage(v7, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 13.2) {
+                    context.drawImage(v8, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 9.8) {
+                    context.drawImage(v9, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 5.4) {
+                    context.drawImage(v10, 20, yvida, 118, 20);
+                }
+                if (vida2 <= 0) {
+                    context.drawImage(v11, 20, yvida, 118, 20);
+                    vida2 = 40;
+                    g1.x = 35;
+                    g1.y = 225;
+                    g2.x = 975;
+                    g2.y = 250;
+                    turno += 1
+
+                    vidal = 10;
+                    vidal2 = 10;
+                }
+                var hy = 10;
+
+            }
+            draw();
+            updatePlayer();
+            UpdateJogador();
+         UpdateTiro();
+			UpdateTiro2();
+            updateLeao();
+            colisionLeao();
+            updateAnimation();
+			 PowerUpZica1();
+
+
+
+        }
+
+        // ciclo da aplicação
+
+        function loop() {
+            cb = canvas.getBoundingClientRect();
+            if (main == true) menu1();
+            if (how == true) wtf();
+            if (creditos == true) nomedopessoal();
+            if (tutor2 == true) wtf2();
+            if (tutor3 == true) wtf3();
+            if (play == true) {
+                Jogando();
+            }
+            if (cabouojogo1 == true) {
+                victory1();
+            }
+            if (cabouojogo2 == true) {
+                victory2();
+            }
+			
+			    	var velo = 5 + Math.floor(Math.random()* 25);
+
+            setTimeout(loop, 30);
+        }
+        loop();
+    </script>
+</body>
+
+</html>
